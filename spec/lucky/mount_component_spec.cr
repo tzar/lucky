@@ -4,7 +4,7 @@ include ContextHelper
 
 private class FancyUserRow(T) < Lucky::HTMLComponent(T)
   def render
-    fancy_html { text "fancy row" }
+    fancy_html_from_page_class { text "fancy row" }
   end
 end
 
@@ -15,7 +15,7 @@ private class PageWithComponent
     mount FancyUserRow
   end
 
-  def fancy_html
+  def fancy_html_from_page_class
     div class: "so-fancy" do
       yield
     end

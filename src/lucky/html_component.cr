@@ -5,8 +5,4 @@ abstract class Lucky::HTMLComponent(T)
 
   def initialize(@page : T)
   end
-
-  def perform_render
-    render
-  end
 end
