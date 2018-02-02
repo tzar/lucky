@@ -2,25 +2,27 @@ require "../../spec_helper"
 
 include ContextHelper
 
-private abstract class MainLayout
-  include Lucky::HTMLPage
+private class FancyUserRow
+  include Lucky::HTMLComponent
 
   def render
-    render_if_defined :sidebar
   end
 end
 
-private class PageWithSidebar < MainLayout
-  def sidebar
-    text "In the sidebar"
+private class PageWithComponent
+  include Lucky::HTMLPage
+
+  def render
+    mount FancyUserRow
   end
 end
 
 describe "mounting components" do
-  it "renders the component and passes in the args" do
+  it "renders components that have no arguments" do
+    view.render
   end
 end
 
 private def view
-  TestRender.new(build_context)
+  PageWithComponent.new(build_context)
 end
