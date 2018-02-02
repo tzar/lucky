@@ -49,6 +49,7 @@ module Lucky::HTMLPage
   end
 
   macro mount(component_class)
+    {{ component_class }}({{ @type.name }}).new(self).perform_render
   end
 
   macro render

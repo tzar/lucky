@@ -2,9 +2,7 @@ require "../../spec_helper"
 
 include ContextHelper
 
-private class FancyUserRow
-  include Lucky::HTMLComponent
-
+private class FancyUserRow(T) < Lucky::HTMLComponent(T)
   def render
     text "fancy row"
   end
