@@ -6,6 +6,7 @@ private class FancyUserRow
   include Lucky::HTMLComponent
 
   def render
+    text "fancy row"
   end
 end
 
@@ -19,7 +20,7 @@ end
 
 describe "mounting components" do
   it "renders components that have no arguments" do
-    view.render
+    view.render.to_s.should eq "fancy row"
   end
 end
 

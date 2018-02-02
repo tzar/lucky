@@ -48,6 +48,9 @@ module Lucky::HTMLPage
     {% end %}
   end
 
+  macro mount(component_class)
+  end
+
   macro render
     {% raise "Lucky now looks for a regular `def render` method. Please use that instead of `render do/end`" %}
   end
