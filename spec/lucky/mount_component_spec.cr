@@ -8,7 +8,7 @@ private class FancyUserRow(T) < Lucky::HTMLComponent(T)
   end
 end
 
-private class UserRowWithNeds(T) < Lucky::HTMLComponent(T)
+private class UserRowWithNeeds(T) < Lucky::HTMLComponent(T)
   needs custom_text : String
 
   def render
@@ -30,13 +30,28 @@ private class PageWithComponent
   end
 end
 
+private class PageWithComponentThatHasArgs < PageWithComponent
+  def render
+    mount UserRowWithNeeds, custom_text: "much custom"
+  end
+end
+
 describe "mounting components" do
   it "renders components that have no arguments" do
     view.render.to_s.should contain "fancy row"
     view.render.to_s.should contain "so-fancy"
   end
+
+  it "renders components with arguments" do
+    view_with_arguments.render.to_s.should contain "much custom"
+    view_with_arguments.render.to_s.should contain "so-fancy"
+  end
 end
 
 private def view
   PageWithComponent.new(build_context)
+end
+
+private def view_with_arguments
+  PageWithComponentThatHasArgs.new(build_context)
 end
