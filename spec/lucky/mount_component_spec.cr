@@ -8,6 +8,14 @@ private class FancyUserRow(T) < Lucky::HTMLComponent(T)
   end
 end
 
+private class UserRowWithNeds(T) < Lucky::HTMLComponent(T)
+  needs custom_text : String
+
+  def render
+    fancy_html_from_page_class { text @custom_text }
+  end
+end
+
 private class PageWithComponent
   include Lucky::HTMLPage
 
