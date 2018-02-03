@@ -48,8 +48,15 @@ module Lucky::HTMLPage
     {% end %}
   end
 
-  macro mount(component_class)
-    {{ component_class }}({{ @type.name }}).new(self).render
+  macro mount(component_class, **component_params)
+    {{ component_class }}({{ @type.name }})
+      .new(
+        page: self,
+        {% for param_name, param_value in component_params %}
+          {{ param_name.id }}: {{ param_value }},
+        {% end %}
+      )
+      .render
   end
 
   macro render
