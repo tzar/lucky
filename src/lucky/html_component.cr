@@ -5,9 +5,6 @@ abstract class Lucky::HTMLComponent(T)
 
   forward_missing_to @page
 
-  def initialize(@page : T)
-  end
-
   macro setup_initializer_hook
     macro finished
       generate_needy_initializer
@@ -22,13 +19,14 @@ abstract class Lucky::HTMLComponent(T)
     end
   end
 
-  macro included
+  macro inherited
     setup_initializer_hook
   end
 
   macro generate_needy_initializer
     {% if !@type.abstract? %}
       def initialize(
+        @page : T,
         {% for var, type in ASSIGNS %}
           @{{ var }} : {{ type }},
         {% end %}
