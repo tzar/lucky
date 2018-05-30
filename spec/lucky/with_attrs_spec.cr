@@ -25,6 +25,10 @@ private class TestMountPage
     with_attrs field: name_field, class: "form-control" do |html|
       html.text_input placeholder: "Name please"
     end
+
+    with_attrs field: name_field, placeholder: "default" do |html|
+      html.text_input placeholder: "override default"
+    end
     @view
   end
 end
@@ -37,6 +41,8 @@ describe "with_attrs" do
       .should contain %(<input type="text" id="user_name" name="user:name" value="" class="form-control"/>)
     contents
       .should contain %(<input type="text" id="user_name" name="user:name" value="" class="form-control" placeholder="Name please"/>)
+    contents
+      .should contain %(<input type="text" id="user_name" name="user:name" value="" placeholder="override default"/>)
   end
 end
 
