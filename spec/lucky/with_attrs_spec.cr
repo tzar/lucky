@@ -21,6 +21,10 @@ private class TestMountPage
     with_attrs field: name_field, class: "form-control" do |html|
       html.text_input
     end
+
+    with_attrs field: name_field, class: "form-control" do |html|
+      html.text_input placeholder: "Name please"
+    end
     @view
   end
 end
@@ -31,6 +35,8 @@ describe "with_attrs" do
 
     contents
       .should contain %(<input type="text" id="user_name" name="user:name" value="" class="form-control"/>)
+    contents
+      .should contain %(<input type="text" id="user_name" name="user:name" value="" class="form-control" placeholder="Name please"/>)
   end
 end
 
