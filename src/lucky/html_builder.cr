@@ -20,6 +20,7 @@ module Lucky::HTMLBuilder
   include Lucky::MountComponent
   include Lucky::HelpfulParagraphError
   include Lucky::RenderIfDefined
+  include Lucky::WithAttrs
 
   macro setup_initializer_hook
     macro finished
