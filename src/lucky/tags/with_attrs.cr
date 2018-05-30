@@ -15,7 +15,7 @@ module Lucky::WithAttrs
 
     macro method_missing(call)
       args = @named_args{% if call.named_args %}.merge(
-        {% for key, value in call.named_args %}
+        {% for key in call.named_args %}
           {{ key }},
         {% end %}
       )

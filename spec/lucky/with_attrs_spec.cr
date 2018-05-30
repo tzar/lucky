@@ -1,19 +1,5 @@
 require "../../spec_helper"
 
-# private abstract class BaseComponent
-#   include Lucky::HTMLBuilder
-
-#   needs view : IO::Memory
-# end
-
-# private class TestComponentWithArgs < BaseComponent
-#   needs title : String
-
-#   def render
-#     text "TestComponentWithArgs: #{@title}"
-#   end
-# end
-
 private class TestMountPage
   include Lucky::HTMLPage
 
@@ -29,6 +15,10 @@ private class TestMountPage
     with_attrs field: name_field, placeholder: "default" do |html|
       html.text_input placeholder: "override default"
     end
+
+    with_attrs field: name_field, class: "default" do |html|
+      html.text_input class: "default-class-not-overridden"
+    end
     @view
   end
 end
@@ -43,6 +33,8 @@ describe "with_attrs" do
       .should contain %(<input type="text" id="user_name" name="user:name" value="" class="form-control" placeholder="Name please"/>)
     contents
       .should contain %(<input type="text" id="user_name" name="user:name" value="" placeholder="override default"/>)
+    contents
+      .should contain %(<input type="text" id="user_name" name="user:name" value="" class="default default-class-not-overridden"/>)
   end
 end
 
