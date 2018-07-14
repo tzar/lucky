@@ -18,9 +18,15 @@ describe Gen::Action do
         "./src/actions/users/update.cr": "class Users::Update < BrowserAction",
         "./src/actions/users/delete.cr": "class Users::Delete < BrowserAction"
       should_create_files_with_contents io,
+        "./src/pages/users/index_page.cr": "class Users::IndexPage < MainLayout",
+        "./src/pages/users/show_page.cr": "class Users::ShowPage < MainLayout",
+        "./src/pages/users/new_page.cr": "class Users::NewPage < MainLayout",
+        "./src/pages/users/edit.cr": "class Users::EditPage < MainLayout"
+      should_create_files_with_contents io,
         "./src/models/user.cr": "class User < BaseModel",
         "./src/queries/user_query.cr": "class UserQuery < User::BaseQuery",
         "./src/forms/user_form.cr": "class UserForm < User::BaseForm"
+      should_generate_migration named: "create_users.cr"
     end
   end
 
@@ -37,6 +43,9 @@ describe Gen::Action do
   end
 
   pending "allows forcing generating even if singular" do
+  end
+
+  pending "does not accept namespaces resources yet" do
   end
 end
 
