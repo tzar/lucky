@@ -12,7 +12,7 @@ class <%= pluralized_resource %>::EditPage < MainLayout
     form_for <%= pluralized_resource %>::Update.with(@<%= underscored_resource %>.id) do
       <%- columns.each_with_index do |column, index| -%>
       field(f.<%= column.name %>) { |i| text_input i<% if index == 0 %>, autofocus: "true"<% end %> }
-      <%- end %>
+      <%- end -%>
 
       submit "Update", data_disable_with: "Updating..."
     end

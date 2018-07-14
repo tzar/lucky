@@ -11,7 +11,7 @@ class <%= pluralized_resource %>::NewPage < MainLayout
     form_for <%= pluralized_resource %>::Create do
       <%- columns.each_with_index do |column, index| -%>
       field(f.<%= column.name %>) { |i| text_input i<% if index == 0 %>, autofocus: "true"<% end %> }
-      <%- end %>
+      <%- end -%>
 
       submit "Save", data_disable_with: "Saving..."
     end
