@@ -29,6 +29,14 @@ class Lucky::ResourceTemplate < Teeplate::FileTree
   private def form_class
     "#{resource}Form"
   end
+
+  private def form_filename
+    form_class.underscore + ".cr"
+  end
+
+  private def query_filename
+    query_class.underscore + ".cr"
+  end
 end
 
 class Gen::Model < LuckyCli::Task

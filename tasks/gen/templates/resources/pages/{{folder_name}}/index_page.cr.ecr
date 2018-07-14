@@ -4,6 +4,10 @@ class <%= pluralized_resource %>::IndexPage < MainLayout
 
   def content
     h1 "All"
+    render_<%= pluralized_resource.underscore %>
+  end
+
+  def render_<%= pluralized_resource.underscore %>
     ul do
       @<%= pluralized_resource.underscore %>.each do |<%= underscored_resource %>|
         li do
