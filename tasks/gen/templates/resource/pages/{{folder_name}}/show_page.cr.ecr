@@ -4,6 +4,13 @@ class <%= pluralized_resource %>::Show < BrowserAction
 
   def content
     h1 "The record"
-    # TODO: List all the columns
+    ul do
+      <%- columns.each do |column|  -%>
+      li do
+        text "<%= column.name %>: "
+        strong @<%= underscored_resource %>.<%= column.name %>
+      end
+      <%- end -%>
+    end
   end
 end

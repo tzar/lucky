@@ -6,7 +6,7 @@ include GeneratorHelper
 describe Gen::Action do
   it "generates actions, model, form and query" do
     with_cleanup do
-      valid_resource_name = "Users"
+      valid_resource_name = "User"
       io = generate valid_resource_name, Gen::Resource::Browser
 
       should_create_files_with_contents io,
@@ -54,8 +54,4 @@ private def generate(name, generator : Class)
   io = IO::Memory.new
   generator.new.call(io)
   io
-end
-
-private def should_have_generated(text, inside)
-  File.read(inside).should contain(text)
 end
