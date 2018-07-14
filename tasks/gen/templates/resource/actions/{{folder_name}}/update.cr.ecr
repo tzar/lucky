@@ -4,7 +4,7 @@ class <%= pluralized_resource %>::Update < BrowserAction
     <%= form_class %>.update(<%= underscored_resource %>, params) do |form, <%= underscored_resource %>|
       if form.saved?
         flash.success = "The record has been updated"
-        redirect Show.with(<%= underscored_resource.id %>)
+        redirect Show.with(<%= underscored_resource %>.id)
       else
         flash.danger = "It looks like the form is not valid"
         render EditPage, form: form

@@ -3,28 +3,30 @@ require "teeplate"
 require "lucky_inflector"
 
 class Lucky::GeneratedColumn
+  getter name, type
+
   def initialize(@name : String, @type : String)
   end
 end
 
 class Lucky::ResourceTemplate < Teeplate::FileTree
-  directory "#{__DIR__}/templates/resource/"
+  directory "#{__DIR__}/../templates/resource"
 
   getter resource, columns
+  getter form_filename : String,
+    query_filename : String,
+    underscored_resource : String,
+    folder_name : String
 
   def initialize(@resource : String, @columns : Array(Lucky::GeneratedColumn))
+    @form_filename = form_class.underscore + ".cr"
+    @query_filename = query_class.underscore + ".cr"
+    @underscored_resource = @resource.underscore
+    @folder_name = pluralized_resource.underscore
   end
 
   private def pluralized_resource
     LuckyInflector::Inflector.pluralize(resource)
-  end
-
-  private def folder_name
-    pluralized_resource.underscore
-  end
-
-  private def underscored_resource
-    @resource.underscore
   end
 
   private def query_class
@@ -34,17 +36,9 @@ class Lucky::ResourceTemplate < Teeplate::FileTree
   private def form_class
     "#{resource}Form"
   end
-
-  private def form_filename
-    form_class.underscore + ".cr"
-  end
-
-  private def query_filename
-    query_class.underscore + ".cr"
-  end
 end
 
-class Gen::Model < LuckyCli::Task
+class Gen::Resource::Browser < LuckyCli::Task
   banner "Generate a resource (model, form, query, actions, and pages)"
   getter io : IO = STDOUT
 
@@ -57,7 +51,7 @@ class Gen::Model < LuckyCli::Task
     end
   end
 
-  private def columns : Lucky::GeneratedColumn
+  private def columns : Array(Lucky::GeneratedColumn)
     column_definitions.map do |column_definition|
       column_name, column_type = column_definition.split(":")
       Lucky::GeneratedColumn.new(name: column_name, type: column_type)
@@ -69,7 +63,7 @@ class Gen::Model < LuckyCli::Task
   end
 
   private def has_valid_columns? : Bool
-    @error = "Must provide valid columns for the resource: lucky gen.resource.browser #{resource.camelcase} name:String"
+    @error = "Must provide valid columns for the resource: lucky gen.resource.browser #{resource_name.camelcase} name:String"
     columns_from_args = ARGV[1]?
     if columns_from_args
       column_definitions.all? do |column_definition|
@@ -92,7 +86,7 @@ class Gen::Model < LuckyCli::Task
   end
 
   private def resource_name_is_camelcase
-    @error = "Resource name should be camel case. Example: lucky gen.resource.browser #{resource.camelcase}"
+    @error = "Resource name should be camel case. Example: lucky gen.resource.browser #{resource_name.camelcase}"
     resource_name.camelcase == resource_name
   end
 
