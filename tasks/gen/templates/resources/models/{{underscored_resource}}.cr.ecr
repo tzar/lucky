@@ -1,5 +1,7 @@
 class <%= resource %> < BaseModel
   table do
-    # TODO: Fill in all the columns
+    <%- columns.each do |column| -%>
+      column <%= column.name %> : <%= column.type %>
+    <%- end -%>
   end
 end

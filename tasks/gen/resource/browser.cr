@@ -2,12 +2,17 @@ require "lucky_cli"
 require "teeplate"
 require "lucky_inflector"
 
+class Lucky::GeneratedColumn
+  def initialize(@name : String, @type : String)
+  end
+end
+
 class Lucky::ResourceTemplate < Teeplate::FileTree
   directory "#{__DIR__}/templates/resource/"
 
-  getter resource
+  getter resource, columns
 
-  def initialize(@resource : String)
+  def initialize(@resource : String, @columns : Array(Lucky::GeneratedColumn))
   end
 
   private def pluralized_resource
@@ -45,15 +50,40 @@ class Gen::Model < LuckyCli::Task
 
   def call(@io : IO = STDOUT)
     if valid?
-      Lucky::ResourceTemplate.new(resource_name).render("./src/")
+      Lucky::ResourceTemplate.new(resource_name, columns).render("./src/")
       # display_success_messages
     else
       io.puts @error.colorize(:red)
     end
   end
 
+  private def columns : Lucky::GeneratedColumn
+    column_definitions.map do |column_definition|
+      column_name, column_type = column_definition.split(":")
+      Lucky::GeneratedColumn.new(name: column_name, type: column_type)
+    end
+  end
+
   private def valid?
-    resource_name_is_present? && resource_name_is_camelcase
+    resource_name_is_present? && resource_name_is_camelcase && has_valid_columns?
+  end
+
+  private def has_valid_columns? : Bool
+    @error = "Must provide valid columns for the resource: lucky gen.resource.browser #{resource.camelcase} name:String"
+    columns_from_args = ARGV[1]?
+    if columns_from_args
+      column_definitions.all? do |column_definition|
+        column_name, column_type = column_definition.split(":")
+        column_definition.split(":").size == 2 &&
+          column_name == column_name.underscore
+      end
+    else
+      false
+    end
+  end
+
+  private def column_definitions
+    ARGV.skip(1)
   end
 
   private def resource_name_is_present?
