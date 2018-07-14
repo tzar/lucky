@@ -1,11 +1,11 @@
 class <%= pluralized_resource %>::Show < BrowserAction
   needs <%= underscored_resource %> : <%= resource %>
-  quick_def page_title, "Show"
+  quick_def page_title, @<%= underscored_resource %>.<%= columns.first.name %>
 
   def content
-    h1 "The record"
+    h1 @<%= underscored_resource %>.<%= columns.first.name %>
     ul do
-      <%- columns.each do |column|  -%>
+      <%- columns.each do |column| -%>
       li do
         text "<%= column.name %>: "
         strong @<%= underscored_resource %>.<%= column.name %>
