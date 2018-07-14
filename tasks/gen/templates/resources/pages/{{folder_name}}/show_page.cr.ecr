@@ -1,0 +1,7 @@
+class <%= pluralized_resource %>::Show < BrowserAction
+  needs <%= underscored_resource %> : <%= resource %>
+  quick_def page_title, "Show"
+
+  def content
+  end
+end

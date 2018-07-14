@@ -1,0 +1,21 @@
+class <%= pluralized_resource %>::IndexPage < MainLayout
+  needs <%= pluralized_resource.underscore %> : <%= query_class %>
+  quick_def page_title, "All"
+
+  def content
+    h1 "All"
+    ul do
+      @<%= pluralized_resource.underscore %>.each do |<%= underscored_resource %>|
+        li do
+          text <%= underscored_resource %>.id
+          text " - "
+          link "Edit", <%= pluralized_resource %>::Edit.with(<%= underscored_resource %>.id)
+          text " | "
+          link "Delete",
+            <%= pluralized_resource %>::Delete.with(<%= underscored_resource %>.id),
+            data_confirm: "Are you sure?"
+        end
+      end
+    end
+  end
+end
