@@ -11,13 +11,7 @@ class <%= pluralized_resource %>::IndexPage < MainLayout
     ul do
       @<%= pluralized_resource.underscore %>.each do |<%= underscored_resource %>|
         li do
-          text <%= underscored_resource %>.id
-          text " - "
-          link "Edit", <%= pluralized_resource %>::Edit.with(<%= underscored_resource %>.id)
-          text " | "
-          link "Delete",
-            <%= pluralized_resource %>::Delete.with(<%= underscored_resource %>.id),
-            data_confirm: "Are you sure?"
+          link <%= underscored_resource %>.<%= columns.first.name %>, <%= pluralized_resource %>::Show.with(<%= underscored_resource %>)
         end
       end
     end
