@@ -8,8 +8,6 @@ class Lucky::ResourceTemplate < Teeplate::FileTree
   getter resource
 
   def initialize(@resource : String)
-    # @underscored_name = @name.underscore
-    # @pluralized_name = LuckyInflector::Inflector.pluralize(@underscored_name)
   end
 
   private def pluralized_resource

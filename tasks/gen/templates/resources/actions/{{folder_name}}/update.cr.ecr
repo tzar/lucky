@@ -1,7 +1,7 @@
 class <%= pluralized_resource %>::Update < BrowserAction
   route do
     <%= underscored_resource %> = <%= query_class %>.find(id)
-    <%= form_class %>.update(<%= underscored_resourece %>, params) do |form, <%= underscored_resource %>|
+    <%= form_class %>.update(<%= underscored_resource %>, params) do |form, <%= underscored_resource %>|
       if form.saved?
         flash.success = "The record has been updated"
         redirect Show.with(<%= underscored_resource.id %>)
