@@ -37,7 +37,7 @@ dependencies:
     github: luckyframework/lucky_inflector
     version: ~> 0.1.1
   lucky_record:
-    github: luckyframework/lucky_record
+    github: tzar/lucky_record
     branch: master
   lucky_router:
     github: luckyframework/lucky_router
@@ -56,7 +56,7 @@ development_dependencies:
   ameba:
     github: veelenga/ameba
   lucky_migrator:
-    github: luckyframework/migrator
+    github: tzar/lucky_migrator
 
 scripts:
   postinstall: |
